@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DNSMASQ_ETC_CONFIG="/etc/dnsmsaq.conf"
+DOCKER_HOSTS="docker.hosts"
+DOCKER_DNS="/etc/dnsmasq.d/docker.dns"
+
+apt-get install -y dnsmasq
+
+echo "addn-hosts=${PWD}/${DOCKER_HOSTS}" > ${DOCKER_DNS}
+echo "interface=docker0" >> ${DOCKER_DNS}
+echo "server 8.8.8.8" >> ${DNSMASQ_ETC_CONFIG}
