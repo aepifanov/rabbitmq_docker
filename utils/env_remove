@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo -e "\n### Remove host rmq3"
+docker stop rmq3 && docker rm rmq3
+echo -e "\n### Remove host rmq2"
+docker stop rmq2 && docker rm rmq2
+echo -e "\n### Remove host rmq1"
+docker stop rmq1 && docker rm rmq1

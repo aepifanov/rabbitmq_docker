@@ -1,0 +1,6 @@
+#!/bin/bash
+
+./rmq_add_host.sh rmq1
+./rmq_add_host.sh rmq2
+./rmq_add_host.sh rmq3
+./rmq_conf_cluster.sh rmq1 rmq2 rmq3

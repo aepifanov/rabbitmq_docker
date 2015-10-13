@@ -13,17 +13,18 @@ for NODE in ${NODES}; do
 done
 
 # Add all nodes to the cluster and restart the service
-for IP in ${NODES}; do
+for NODE in ${NODES}; do
+    echo -e "\n### Configuring RabbitMQ cluster on ${NODE}"
     # Stop and clear RabbitMQ
-    ssh $USER@$IP rabbitmqctl stop_app
-    ssh $USER@$IP rabbitmqctl reset
-    ssh $USER@$IP rabbitmqctl stop
+    ssh -q $USER@$NODE rabbitmqctl stop_app
+    ssh -q $USER@$NODE rabbitmqctl reset
+    ssh -q $USER@$NODE rabbitmqctl stop
     sleep 2
     # Add cluster setting to the config
-    ssh $USER@$IP exec "sed -i \"s/{rabbit, \[/{rabbit, \[\n    {cluster_nodes, {[${LIST_NODES}], disc}},/g\" ${RMQ_CONF}"
+    ssh -q $USER@$NODE exec "sed -i \"s/{rabbit, \[/{rabbit, \[\n    {cluster_nodes, {[${LIST_NODES}], disc}},/g\" ${RMQ_CONF}"
     # All cluster nodes have to have the same cookie
-    ssh $USER@$IP exec "echo "LSOPFHUMRHGYDZFZIAZV" > /var/lib/rabbitmq/.erlang.cookie"
+    ssh -q $USER@$NODE exec "echo "LSOPFHUMRHGYDZFZIAZV" > /var/lib/rabbitmq/.erlang.cookie"
     # Start service with the new configuration
-    ssh $USER@$IP service rabbitmq-server start
+    ssh -q $USER@$NODE service rabbitmq-server start
 done
 
