@@ -14,7 +14,7 @@ all: build tag_latest
 # target: build           - Build image
 .PHONY: build
 build: ssh
-	docker build -t $(NAME):$(VERSION) --rm image
+	sudo docker build -t $(NAME):$(VERSION) --rm image
 
 ssh:
 	if [ -e $(SSH_PUB_KEY) ]; then cp -f $(SSH_PUB_KEY) image/ssh/; fi
